@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+/* Header Styles */
+.header {
+  max-width: 1920px !important;
+  /* Si quiero cambiar el header tengo que usar esto */
+}
+.hoverable:hover {
+  cursor: pointer;
+}
+
+/* Showcase Styles */
+.showcase {
+  background: var(--dark);
+  padding-top: 40px;
+  display: flex;
+  justify-content: center;
+}
