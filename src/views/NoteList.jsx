@@ -94,10 +94,9 @@ function NoteList() {
   //     created_at: date.toLocaleDateString(),
   //     color: ""
   //   };
-
+  
   //   dataBase.push(newNote);
   //   updateDb([...dataBase]);
-
   // }
 
   // const prueba = (text) => {  
