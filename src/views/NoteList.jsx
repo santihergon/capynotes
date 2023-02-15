@@ -7,7 +7,11 @@ import Masonry from "@mui/lab/Masonry";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
+// import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+
+import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
 
 // import { format } from 'date-fns';
 
@@ -16,17 +20,17 @@ import Note from "../components/Note";
 import NoteDetail from "../components/NoteDetail";
 
 
-const heights = [
-  350, 130, 190, 270, 310, 350, 330, 280, 250, 290, 200, 350, 230, 250, 280,
-];
+// const heights = [
+//   350, 130, 190, 270, 310, 350, 330, 280, 250, 290, 200, 350, 230, 250, 280,
+// ];
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(0.5),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+// const Item = styled(Paper)(({ theme }) => ({
+//   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+//   ...theme.typography.body2,
+//   padding: theme.spacing(0.5),
+//   textAlign: "center",
+//   color: theme.palette.text.secondary,
+// }));
 
 const MiCard = styled(Grid)(({ theme }) => ({
   color: "#f5f5f5",
@@ -34,7 +38,6 @@ const MiCard = styled(Grid)(({ theme }) => ({
 }));
 
 const checkDb = () => {
-  console.log("aaa")
   if (localStorage.getItem('db')) {
     return JSON.parse(localStorage.getItem('db'))
   }
@@ -46,6 +49,8 @@ function NoteList() {
   const [dataBase, setDataBase] = useState(checkDb());// Paso el json a un useState para que sea más accesible y rápido(?)
   const [open, setOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState([]);
+  const [newNote, setNewNote] = useState([]);
+
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -76,8 +81,27 @@ function NoteList() {
     console.log(index);
   }
 
+  // const addNote = () => {
+  //   handleOpen();
+
+  //   // dataBase.push(setNewNote);
+  //   // updateDb([...dataBase]);
+  // }
+
+  // const prueba = (text) => {
+	// 	const date = new Date();
+	// 	const newNote = {
+	// 		id: nanoid(),
+	// 		text: text,
+	// 		date: date.toLocaleDateString(),
+	// 	};
+	// 	const newNotes = [...notes, newNote];
+	// 	setNotes(newNotes);
+	// }
+
   return (
     <section className="showcase">
+      {/* <Button variant="outlined" startIcon={<AddIcon />} onClick={() => addNote()}>Añadir Nota</Button> */}
       <Box sx={{ width: 1500, minHeight: 1393 }}>
         <Masonry columns={5} spacing={2}>
           {dataBase.map((data, key) => {
@@ -87,7 +111,6 @@ function NoteList() {
                   // setOpen(true);
                   handleOpen();
                   setModalInfo(data);
-
                 }} className="miCard" sx={{ m: 'auto', backgroundColor: data.color === "black" ? "#1A2027" : data.color === "green" ? "#2e9d50" : data.color === "yellow" ? "#c9b31b" : data.color === "blue" ? "#2a7bb5" : data.color === "white" ? "#919191" : "#8d5991" }} >
                   <Grid item xs sx={{ p: '0.75em', '@media screen and (max-width: 890px)': { maxWidth: '100%', p: '0.75em' } }}>
                     <div>
@@ -97,6 +120,7 @@ function NoteList() {
                     </div>
                     <div className='pregunta'>
                       <span>{data.content}</span>
+                      {/* <span>{modalInfo}</span> */}
                     </div>
                     <br></br>
                     <div className='pregunta'>
@@ -105,7 +129,8 @@ function NoteList() {
                       {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
                     </div>
                     <IconButton aria-label="delete" onClick={() => deleteButton(data.id, data)}>
-                      <DeleteIcon />
+                      {/* <DeleteForeverIcon /> */}
+                      <DeleteRoundedIcon />
                     </IconButton>
                   </Grid>
                 </MiCard>
@@ -117,7 +142,7 @@ function NoteList() {
             ))} */}
         </Masonry>
       </Box>
-      <NoteDetail open={open} handleClose={handleClose} modalInfo={modalInfo} deleteButton={deleteButton} />
+      <NoteDetail open={open} handleClose={handleClose} modalInfo={modalInfo} deleteButton={deleteButton} checkDb={checkDb} dataBase={dataBase} updateDb={updateDb} />
     </section>
   );
 }

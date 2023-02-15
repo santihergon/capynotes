@@ -12,6 +12,19 @@ import AddIcon from '@mui/icons-material/Add';
 
 export function Header() {
 
+  //   const addNote = () => {
+
+  //     console.log(dataID);
+  
+  //     const index = dataBase.indexOf(data); // Utilizo indexOf() para sacar el índice(posición en la lista) del objeto, en este caso el objeto es data, que es la nota 
+  //     console.log("index " + index);
+  
+  //     dataBase.splice(index, 1);
+  //     updateDb([...dataBase]);
+  
+  //     console.log(index);
+  // }
+
   return <AppBar position="static" style={{ backgroundColor: '#272b33' }}>
     <Container className='header'>
       <Toolbar disableGutters>
@@ -24,8 +37,9 @@ export function Header() {
           </Grid>
           <Grid item>
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
+              {/* <Button variant="outlined" startIcon={<AddIcon />} onClick={() => addNote()}> */}
               <Button variant="outlined" startIcon={<AddIcon />}>
-                Add
+                Añadir Nota
               </Button>
             </Box>
           </Grid>
