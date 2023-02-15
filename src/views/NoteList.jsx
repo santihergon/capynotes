@@ -48,11 +48,12 @@ const checkDb = () => {
 function NoteList() {
   const [dataBase, setDataBase] = useState(checkDb());// Paso el json a un useState para que sea más accesible y rápido(?)
   const [open, setOpen] = useState(false);
-  const [modalInfo, setModalInfo] = useState([]);
-  const [newNote, setNewNote] = useState([]);
+  const [modalInfo, setModalInfo] = useState(null);
 
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    setOpen(true)
+  };
   const handleClose = () => setOpen(false);
 
   const updateDb = (newData) => {
@@ -79,31 +80,49 @@ function NoteList() {
     updateDb([...dataBase]);
 
     console.log(index);
+    handleClose();
   }
 
   // const addNote = () => {
-  //   handleOpen();
+  //   // handleOpen();
+  //   const date = new Date();
 
-  //   // dataBase.push(setNewNote);
-  //   // updateDb([...dataBase]);
+  //   const newNote = {
+  //     id: dataBase[dataBase.length - 1].id + 1,
+  //     title: "",
+  //     content: "",
+  //     created_at: date.toLocaleDateString(),
+  //     color: ""
+  //   };
+
+  //   dataBase.push(newNote);
+  //   updateDb([...dataBase]);
+
   // }
 
-  // const prueba = (text) => {
-	// 	const date = new Date();
-	// 	const newNote = {
-	// 		id: nanoid(),
-	// 		text: text,
-	// 		date: date.toLocaleDateString(),
-	// 	};
-	// 	const newNotes = [...notes, newNote];
-	// 	setNotes(newNotes);
-	// }
+  // const prueba = (text) => {  
+  // 	const date = new Date();
+
+  // 	const createNewNote = {
+  // 		id: dataBase[dataBase.length-1].id+1,
+  // 		title: "prueba",
+  //     content: "prueba",
+  //     created_at: date.toLocaleDateString(),
+  //     color: "green",
+  // 	};
+
+  // 	setNewNote(createNewNote);
+
+  //   dataBase.push(newNote);
+  //   updateDb([...dataBase]);
+  // }
 
   return (
     <section className="showcase">
-      {/* <Button variant="outlined" startIcon={<AddIcon />} onClick={() => addNote()}>Añadir Nota</Button> */}
+      <Button variant="outlined" startIcon={<AddIcon />} onClick={() => handleOpen()}>Añadir Nota</Button>
       <Box sx={{ width: 1500, minHeight: 1393 }}>
         <Masonry columns={5} spacing={2}>
+          {/* {dataBase.sort((a, b) => (a.id > b.id) ? -1 : 1).map((data, key) => { */}
           {dataBase.map((data, key) => {
             return (
               <Grid item key={data.id} xs={12} sm={12} md={6} lg={6} xl={4} className='gridCards'>
@@ -128,7 +147,7 @@ function NoteList() {
                       <span>{data.created_at}</span>.
                       {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
                     </div>
-                    <IconButton aria-label="delete" onClick={() => deleteButton(data.id, data)}>
+                    <IconButton aria-label="delete" onClick={(e)=> {e.stopPropagation(); deleteButton(data.id, data)}}>
                       {/* <DeleteForeverIcon /> */}
                       <DeleteRoundedIcon />
                     </IconButton>
@@ -142,7 +161,7 @@ function NoteList() {
             ))} */}
         </Masonry>
       </Box>
-      <NoteDetail open={open} handleClose={handleClose} modalInfo={modalInfo} deleteButton={deleteButton} checkDb={checkDb} dataBase={dataBase} updateDb={updateDb} />
+      <NoteDetail open={open} handleClose={handleClose} modalInfo={modalInfo} setModalInfo={setModalInfo} deleteButton={deleteButton} checkDb={checkDb} dataBase={dataBase} updateDb={updateDb} />
     </section>
   );
 }

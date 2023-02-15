@@ -13,6 +13,7 @@ import Grid from "@mui/material/Grid";
 import IconButton from '@mui/material/IconButton';
 // import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import { styled } from "@mui/material/styles";
 import TextareaAutosize from '@mui/base/TextareaAutosize';
@@ -34,22 +35,63 @@ const MiCard = styled(Grid)(({ theme }) => ({
     // backgroundColor: db_base.color === "black" ? "#1A2027" : "#fff"
 }));
 
-function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, dataBase }) {
+function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, dataBase, setModalInfo }) {
 
+    console.log("notedetail")
+    console.log(modalInfo)
+
+    const [newCreateNote, setNewCreateNote] = useState(null);
     const [noteContent, setNoteContent] = useState('');
+    const [noteTitle, setNoteTitle] = useState('');
+    const [date, setDate] = useState(new Date());
 
-    const handleChange = (event) => {
+    const isUpdate = modalInfo === null
+    const noteColor = modalInfo?.color || 'blue'
+    console.log(isUpdate)
+
+
+    const handleChangeTitle = (event) => {
+        modalInfo.title = event.target.value;
+    };
+
+    const handleChangeContent = (event) => {
         modalInfo.content = event.target.value;
-        // setNoteContent(modalInfo.content);
-        console.log(modalInfo.content);
     };
 
     const closeModal = (event) => {
-        const index = dataBase.indexOf(modalInfo.content);
-        updateDb([...dataBase]);
+        // const index = dataBase.indexOf(modalInfo.content);
+        //Tengo que coger los datos, los guardo y los actualizo
+
+        modalInfo.created_at = date.toLocaleString();
+        console.log(modalInfo);
+
+        if (modalInfo.content) {
+            console.log(modalInfo);
+            console.log('hola');
+
+            const date = new Date();
+            const newNote = {
+                id: dataBase[dataBase.length - 1].id + 1,
+                title: modalInfo.title,
+                content: modalInfo.content,
+                created_at: date.toLocaleString(),
+                color: ""
+            };
+            
+            if(isUpdate){
+                dataBase.push(newNote);
+            }
+            
+            updateDb([...dataBase]);
+        }
+        
+        setModalInfo([]);
+        
+        console.log(modalInfo);
+
         handleClose();
     };
-    
+
 
     return (
         <div>
@@ -63,37 +105,48 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                 closeAfterTransition
             >
                 <Fade in={open}>
-                    <Grid item key={modalInfo.id} xs={12} sm={12} md={6} lg={6} xl={4} className='gridCards'>
-                        <MiCard container className="miCard" sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 600, m: 'auto', backgroundColor: modalInfo.color === "black" ? "#1A2027" : modalInfo.color === "green" ? "#2e9d50" : modalInfo.color === "yellow" ? "#c9b31b" : modalInfo.color === "blue" ? "#2a7bb5" : modalInfo.color === "white" ? "#919191" : "#8d5991" }} >
+                    <Grid item key={modalInfo?.id} xs={12} sm={12} md={6} lg={6} xl={4} className='gridCards'>
+                        <MiCard container className="miCard" sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 600, m: 'auto', backgroundColor: noteColor === "black" ? "#1A2027" : noteColor === "green" ? "#2e9d50" : noteColor === "yellow" ? "#c9b31b" : noteColor === "blue" ? "#2a7bb5" : noteColor === "white" ? "#919191" : "#8d5991" }} >
                             <Grid item xs sx={{ p: '0.75em', '@media screen and (max-width: 890px)': { maxWidth: '100%', p: '0.75em' } }}>
                                 <div>
                                     <TextField
                                         id="outlined-multiline-flexible"
                                         multiline
-                                        defaultValue={modalInfo.title}
+                                        defaultValue={modalInfo?.title || ''}
+                                        placeholder='Escribe algo...'
                                         fullWidth
+                                        // value={noteTitle}
+                                        onChange={handleChangeTitle}
                                     />
                                 </div>
                                 <div className='pregunta'>
                                     <TextField
                                         id="outlined-multiline-flexible"
                                         multiline
-                                        defaultValue={modalInfo.content}
+                                        // defaultValue={modalInfo.content}
+                                        defaultValue={modalInfo?.content || ''}
+                                        placeholder='Escribe algo...'
                                         fullWidth
                                         autoFocus
-                                        onChange={handleChange}
+                                        // value={noteText}
+                                        onChange={handleChangeContent}
                                     />
                                 </div>
                                 <br></br>
                                 <div className='pregunta'>
                                     <small>Created at: </small>
-                                    <span>{modalInfo.created_at}</span>.
+                                    <span>{modalInfo?.created_at}</span>.
                                     {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
                                 </div>
-                                <IconButton aria-label="delete" onClick={() => deleteButton(modalInfo.id, modalInfo)}>
+                                <IconButton aria-label="delete" onClick={() => deleteButton(modalInfo?.id, modalInfo)}>
                                     {/* <DeleteForeverIcon /> */}
                                     <DeleteRoundedIcon />
                                 </IconButton>
+                                <IconButton aria-label="setColor" >
+                                    {/* <DeleteForeverIcon /> */}
+                                    <ColorLensRoundedIcon />
+                                </IconButton>
+
                                 {/* <IconButton aria-label="save" onClick={() => deleteButton(modalInfo.id, modalInfo)}>
                                     <SaveRoundedIcon />
                                 </IconButton> */}
