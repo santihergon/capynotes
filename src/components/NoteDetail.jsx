@@ -63,7 +63,7 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
         //Tengo que coger los datos, los guardo y los actualizo
 
         modalInfo.created_at = date.toLocaleString();
-        console.log(modalInfo);
+        console.log(modalInfo); 
 
         if (modalInfo.content) {
             console.log(modalInfo);

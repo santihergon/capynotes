@@ -9,7 +9,7 @@ import CapiLogo from "../components/icons/capiLogo.png";
 
 import AddIcon from '@mui/icons-material/Add';
 
-
+ 
 export function Header() {
 
   return <AppBar position="static" style={{ backgroundColor: '#272b33' }}>
