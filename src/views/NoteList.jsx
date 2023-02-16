@@ -36,7 +36,7 @@ function NoteList() {
   const [dataBase, setDataBase] = useState(checkDb());// Paso el json a un useState para que sea más accesible y rápido(?)
   const [open, setOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState(null);
-
+  
 
   const handleOpen = () => {
     setOpen(true) 
