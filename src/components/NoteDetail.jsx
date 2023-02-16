@@ -77,16 +77,16 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                 created_at: date.toLocaleString(),
                 color: ""
             };
-            
-            if(isUpdate){
+
+            if (isUpdate) {
                 dataBase.push(newNote);
             }
-            
+
             updateDb([...dataBase]);
         }
-        
+
         setModalInfo([]);
-        
+
         console.log(modalInfo);
 
         handleClose();

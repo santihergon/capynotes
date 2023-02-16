@@ -19,19 +19,6 @@ import db_base from "../db/db_base.json";
 import Note from "../components/Note";
 import NoteDetail from "../components/NoteDetail";
 
-
-// const heights = [
-//   350, 130, 190, 270, 310, 350, 330, 280, 250, 290, 200, 350, 230, 250, 280,
-// ];
-
-// const Item = styled(Paper)(({ theme }) => ({
-//   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-//   ...theme.typography.body2,
-//   padding: theme.spacing(0.5),
-//   textAlign: "center",
-//   color: theme.palette.text.secondary,
-// }));
-
 const MiCard = styled(Grid)(({ theme }) => ({
   color: "#f5f5f5",
   // backgroundColor: db_base.color === "black" ? "#1A2027" : "#fff"
@@ -83,39 +70,6 @@ function NoteList() {
     handleClose();
   }
 
-  // const addNote = () => {
-  //   // handleOpen();
-  //   const date = new Date();
-
-  //   const newNote = {
-  //     id: dataBase[dataBase.length - 1].id + 1,
-  //     title: "",
-  //     content: "",
-  //     created_at: date.toLocaleDateString(),
-  //     color: ""
-  //   };
-  
-  //   dataBase.push(newNote);
-  //   updateDb([...dataBase]);
-  // }
-
-  // const prueba = (text) => {  
-  // 	const date = new Date();
-
-  // 	const createNewNote = {
-  // 		id: dataBase[dataBase.length-1].id+1,
-  // 		title: "prueba",
-  //     content: "prueba",
-  //     created_at: date.toLocaleDateString(),
-  //     color: "green",
-  // 	};
-
-  // 	setNewNote(createNewNote);
-
-  //   dataBase.push(newNote);
-  //   updateDb([...dataBase]);
-  // }
-
   return (
     <section className="showcase">
       <Button variant="outlined" startIcon={<AddIcon />} onClick={() => handleOpen()}>Añadir Nota</Button>
@@ -146,7 +100,7 @@ function NoteList() {
                       <span>{data.created_at}</span>.
                       {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
                     </div>
-                    <IconButton aria-label="delete" onClick={(e)=> {e.stopPropagation(); deleteButton(data.id, data)}}>
+                    <IconButton aria-label="delete" onClick={(e) => { e.stopPropagation(); deleteButton(data.id, data) }}>
                       {/* <DeleteForeverIcon /> */}
                       <DeleteRoundedIcon />
                     </IconButton>
