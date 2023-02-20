@@ -7,7 +7,6 @@ import Masonry from "@mui/lab/Masonry";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import IconButton from '@mui/material/IconButton';
-// import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 
 import Button from '@mui/material/Button';
@@ -35,12 +34,10 @@ const checkDb = () => {
 function NoteList() {
   const [dataBase, setDataBase] = useState(checkDb());// Paso el json a un useState para que sea más accesible y rápido(?)
   const [open, setOpen] = useState(false);
-  const [modalInfo, setModalInfo] = useState(null);
-  
+  const [modalInfo, setModalInfo] = useState([]);
 
-  const handleOpen = () => {
-    setOpen(true) 
-  };
+
+  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const updateDb = (newData) => {
@@ -67,6 +64,7 @@ function NoteList() {
     updateDb([...dataBase]);
 
     console.log(index);
+    setModalInfo([]);
     handleClose();
   }
 
@@ -92,7 +90,6 @@ function NoteList() {
                     </div>
                     <div className='pregunta'>
                       <span>{data.content}</span>
-                      {/* <span>{modalInfo}</span> */}
                     </div>
                     <br></br>
                     <div className='pregunta'>
@@ -101,7 +98,6 @@ function NoteList() {
                       {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
                     </div>
                     <IconButton aria-label="delete" onClick={(e) => { e.stopPropagation(); deleteButton(data.id, data) }}>
-                      {/* <DeleteForeverIcon /> */}
                       <DeleteRoundedIcon />
                     </IconButton>
                   </Grid>

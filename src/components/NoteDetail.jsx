@@ -1,4 +1,3 @@
-import * as React from 'react';
 
 import { useState, useEffect } from "react";
 
@@ -7,16 +6,22 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-
 import Typography from '@mui/material/Typography';
 import Grid from "@mui/material/Grid";
 import IconButton from '@mui/material/IconButton';
-// import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import { styled } from "@mui/material/styles";
 import TextareaAutosize from '@mui/base/TextareaAutosize';
+import Checkbox from '@mui/material/Checkbox';
+import CircleIcon from '@mui/icons-material/Circle';
+import Popover from '@mui/material/Popover';
+import Tooltip from '@mui/material/Tooltip';
+
+import FormControlLabel from '@mui/material/FormControlLabel';
+
+import Zoom from '@mui/material/Zoom';
 
 const style = {
     position: 'absolute',
@@ -37,17 +42,39 @@ const MiCard = styled(Grid)(({ theme }) => ({
 
 function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, dataBase, setModalInfo }) {
 
-    console.log("notedetail")
-    console.log(modalInfo)
+    //console.log("notedetail")
+    //console.log(modalInfo)
 
     const [newCreateNote, setNewCreateNote] = useState(null);
     const [noteContent, setNoteContent] = useState('');
     const [noteTitle, setNoteTitle] = useState('');
     const [date, setDate] = useState(new Date());
-
-    const isUpdate = modalInfo === null
+    const [checked, setChecked] = useState(true);
+    const isUpdate = !Array.isArray(modalInfo)
     const noteColor = modalInfo?.color || 'blue'
-    console.log(isUpdate)
+    const [anchorEl, setAnchorEl] = useState(null);
+    const colors = [{
+        red: 'absolute',
+        green: '50%',
+        blue: '50%',
+        yellow: 'translate(-50%, -50%)',
+        white: 400,
+        black: 'background.paper'
+    }
+    ];
+    var colorArray = ['red', 'green', 'blue', 'yellow', 'white', 'black'];
+
+
+    const handleClickPopover = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClosePopover = () => {
+        setAnchorEl(null);
+    };
+
+    const openPopover = Boolean(anchorEl);
+    // const id = openPopover ? 'simple-popover' : undefined;
 
 
     const handleChangeTitle = (event) => {
@@ -58,16 +85,63 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
         modalInfo.content = event.target.value;
     };
 
+    const handleChangeBtnSetColor = (event) => {
+        setChecked(event.target.checked);
+        event.preventDefault();
+
+        //if (event.target.id === "red") {
+        //    console.log(event.target.id);
+        //    <CircleIcon style={{ color: 'red', fill: 'red' }} />
+        //}
+        //if (event.target.id === "green") {
+        //    console.log(event.target.id);
+        //    <CircleIcon style={{ color: 'green', fill: 'green' }} />
+        //}
+        //if (event.target.id === "blue") {
+
+        //}
+        //if (event.target.id === "yellow") {
+
+        //}
+        //if (event.target.id === "white") {
+
+        //}
+        //if (event.target.id === "black") {
+
+        //}
+
+    };
+
+    const LikeAction = () => {
+        return <div className="action-btn ">
+            <FormControlLabel control={
+                <Checkbox
+                    id="red"
+                    className='hover-pink'
+                    icon={<CircleIcon />}
+                    checkedIcon={<CircleIcon style={{ color: 'red', fill: 'red' }}/>}
+                    checked={checked}
+                />}
+                onClick={handleChangeBtnSetColor} />
+            <FormControlLabel control={
+                <Checkbox
+                    id="green"
+                    className='hover-pink'
+                    icon={<CircleIcon />}
+                    checkedIcon={<CircleIcon style={{ color: 'green', fill: 'green' }} />}
+                    checked={checked}
+                />}
+                onClick={handleChangeBtnSetColor} />
+        </div>
+    }
+
     const closeModal = (event) => {
+
         // const index = dataBase.indexOf(modalInfo.content);
-        //Tengo que coger los datos, los guardo y los actualizo
 
         modalInfo.created_at = date.toLocaleString();
-        console.log(modalInfo);  
 
         if (modalInfo.content) {
-            console.log(modalInfo);
-            console.log('hola');
 
             const date = new Date();
             const newNote = {
@@ -78,7 +152,7 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                 color: ""
             };
 
-            if (isUpdate) {
+            if (!isUpdate) {
                 dataBase.push(newNote);
             }
 
@@ -87,11 +161,8 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
 
         setModalInfo([]);
 
-        console.log(modalInfo);
-
         handleClose();
     };
-
 
     return (
         <div>
@@ -107,7 +178,7 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                 <Fade in={open}>
                     <Grid item key={modalInfo?.id} xs={12} sm={12} md={6} lg={6} xl={4} className='gridCards'>
                         <MiCard container className="miCard" sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 600, m: 'auto', backgroundColor: noteColor === "black" ? "#1A2027" : noteColor === "green" ? "#2e9d50" : noteColor === "yellow" ? "#c9b31b" : noteColor === "blue" ? "#2a7bb5" : noteColor === "white" ? "#919191" : "#8d5991" }} >
-                            <Grid item xs sx={{ p: '0.75em', '@media screen and (max-width: 890px)': { maxWidth: '100%', p: '0.75em' } }}>
+                            <Grid item xs sx={{ p: '0.75em', '@media screen and (max-width: 890px)': { maxWidth: '100%', p: '0.75em' } }}>  {/* Creo que se puede quitar */}
                                 <div>
                                     <TextField
                                         id="outlined-multiline-flexible"
@@ -139,17 +210,22 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                                     {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
                                 </div>
                                 <IconButton aria-label="delete" onClick={() => deleteButton(modalInfo?.id, modalInfo)}>
-                                    {/* <DeleteForeverIcon /> */}
                                     <DeleteRoundedIcon />
                                 </IconButton>
-                                <IconButton aria-label="setColor" >
-                                    {/* <DeleteForeverIcon /> */}
-                                    <ColorLensRoundedIcon />
-                                </IconButton>
-
-                                {/* <IconButton aria-label="save" onClick={() => deleteButton(modalInfo.id, modalInfo)}>
-                                    <SaveRoundedIcon />
-                                </IconButton> */}
+                                <div>
+                                    <IconButton aria-label="setColor" onClick={handleClickPopover} >
+                                        <ColorLensRoundedIcon />
+                                    </IconButton>
+                                    <Popover
+                                        id='simple-popover'
+                                        open={openPopover}
+                                        anchorEl={anchorEl}
+                                        onClose={handleClosePopover}
+                                        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                                    >
+                                        <LikeAction />
+                                    </Popover>
+                                </div>
                             </Grid>
                         </MiCard>
                     </Grid>
