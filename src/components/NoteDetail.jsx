@@ -22,6 +22,7 @@ import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 import Zoom from '@mui/material/Zoom';
+import { NOTE_COLORS } from "../utils/CONSTANTS";
 
 const style = {
     position: 'absolute',
@@ -49,21 +50,10 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
     const [noteContent, setNoteContent] = useState('');
     const [noteTitle, setNoteTitle] = useState('');
     const [date, setDate] = useState(new Date());
-    const [checked, setChecked] = useState(true);
+    const [checked, setChecked] = useState(null);
     const isUpdate = !Array.isArray(modalInfo)
     const noteColor = modalInfo?.color || 'blue'
     const [anchorEl, setAnchorEl] = useState(null);
-    const colors = [{
-        red: 'absolute',
-        green: '50%',
-        blue: '50%',
-        yellow: 'translate(-50%, -50%)',
-        white: 400,
-        black: 'background.paper'
-    }
-    ];
-    var colorArray = ['red', 'green', 'blue', 'yellow', 'white', 'black'];
-
 
     const handleClickPopover = (event) => {
         setAnchorEl(event.currentTarget);
@@ -76,7 +66,6 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
     const openPopover = Boolean(anchorEl);
     // const id = openPopover ? 'simple-popover' : undefined;
 
-
     const handleChangeTitle = (event) => {
         modalInfo.title = event.target.value;
     };
@@ -86,63 +75,65 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
     };
 
     const handleChangeBtnSetColor = (event) => {
-        setChecked(event.target.checked);
-        event.preventDefault();
 
-        //if (event.target.id === "red") {
+        if (checked === event.target.id) {
+            setChecked(null);
+        } else {
+            setChecked(event.target.id);
+            modalInfo.color = event.target.id;
+
+        }
+
+        // if (event.target.id === "red" ) {
+        //     console.log(event.target.checked)
+        //     setChecked(event.target.id);
+        //     event.preventDefault();
         //    console.log(event.target.id);
-        //    <CircleIcon style={{ color: 'red', fill: 'red' }} />
-        //}
-        //if (event.target.id === "green") {
+        // //    <CircleIcon style={{ color: 'red', fill: 'red' }} />
+        // }
+        // if (event.target.id === "green") {
+        //     setChecked(event.target.id);
+        //     event.preventDefault();
         //    console.log(event.target.id);
-        //    <CircleIcon style={{ color: 'green', fill: 'green' }} />
-        //}
-        //if (event.target.id === "blue") {
-
-        //}
-        //if (event.target.id === "yellow") {
-
-        //}
-        //if (event.target.id === "white") {
-
-        //}
-        //if (event.target.id === "black") {
-
-        //}
+        // //    <CircleIcon style={{ color: 'green', fill: 'green' }} />
+        // }
 
     };
 
     const LikeAction = () => {
         return <div className="action-btn ">
-            <FormControlLabel control={
-                <Checkbox
-                    id="red"
+            {Object.keys(NOTE_COLORS).map((key, value) => {
+                return <Checkbox
+                    key={key}
+                    id={key}
                     className='hover-pink'
-                    icon={<CircleIcon />}
-                    checkedIcon={<CircleIcon style={{ color: 'red', fill: 'red' }}/>}
-                    checked={checked}
-                />}
+                    icon={<CircleIcon style={{ color: NOTE_COLORS[key] }} />}
+                    checkedIcon={<CircleIcon style={{ color: NOTE_COLORS[key], border: '1px solid' + NOTE_COLORS[key], borderRadius:'24px'  }} />}
+                    checked={checked === key}
+                    onClick={handleChangeBtnSetColor}
+                />
+            })}
+            {/* <Checkbox
+                id="red"
+                className='hover-pink'
+                icon={<CircleIcon />}
+                checkedIcon={<CircleIcon style={{ color: 'red', fill: 'red' }} />}
+                checked={checked === "red"}
                 onClick={handleChangeBtnSetColor} />
-            <FormControlLabel control={
-                <Checkbox
-                    id="green"
-                    className='hover-pink'
-                    icon={<CircleIcon />}
-                    checkedIcon={<CircleIcon style={{ color: 'green', fill: 'green' }} />}
-                    checked={checked}
-                />}
-                onClick={handleChangeBtnSetColor} />
+            <Checkbox
+                id="green"
+                className='hover-pink'
+                icon={<CircleIcon />}
+                checkedIcon={<CircleIcon style={{ color: 'green', fill: 'green' }} />}
+                checked={checked === "green"}
+                onClick={handleChangeBtnSetColor} /> */}
         </div>
     }
 
     const closeModal = (event) => {
-
-        // const index = dataBase.indexOf(modalInfo.content);
-
         modalInfo.created_at = date.toLocaleString();
 
         if (modalInfo.content) {
-
             const date = new Date();
             const newNote = {
                 id: dataBase[dataBase.length - 1].id + 1,
@@ -151,16 +142,13 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                 created_at: date.toLocaleString(),
                 color: ""
             };
-
             if (!isUpdate) {
                 dataBase.push(newNote);
             }
-
             updateDb([...dataBase]);
         }
-
         setModalInfo([]);
-
+        setChecked(null);
         handleClose();
     };
 

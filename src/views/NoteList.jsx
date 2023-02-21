@@ -17,6 +17,7 @@ import AddIcon from '@mui/icons-material/Add';
 import db_base from "../db/db_base.json";
 import Note from "../components/Note";
 import NoteDetail from "../components/NoteDetail";
+import { NOTE_COLORS } from "../utils/CONSTANTS";
 
 const MiCard = styled(Grid)(({ theme }) => ({
   color: "#f5f5f5",
@@ -54,10 +55,10 @@ function NoteList() {
     //   console.log(nota.id === dataID)
     //   return nota.id === dataID
     // }));
-    // console.log("index1 "+index1);    
+    // console.log("index1 "+index1);
     // Este de abajo es lo mismo
 
-    const index = dataBase.indexOf(data); // Utilizo indexOf() para sacar el índice(posición en la lista) del objeto, en este caso el objeto es data, que es la nota 
+    const index = dataBase.indexOf(data); // Utilizo indexOf() para sacar el índice(posición en la lista) del objeto, en este caso el objeto es data, que es la nota
     console.log("index " + index);
 
     dataBase.splice(index, 1);
@@ -81,7 +82,7 @@ function NoteList() {
                   // setOpen(true);
                   handleOpen();
                   setModalInfo(data);
-                }} className="miCard" sx={{ m: 'auto', backgroundColor: data.color === "black" ? "#1A2027" : data.color === "green" ? "#2e9d50" : data.color === "yellow" ? "#c9b31b" : data.color === "blue" ? "#2a7bb5" : data.color === "white" ? "#919191" : "#8d5991" }} >
+                }} className="miCard" sx={{ m: 'auto', backgroundColor: NOTE_COLORS[data.color]  }} >
                   <Grid item xs sx={{ p: '0.75em', '@media screen and (max-width: 890px)': { maxWidth: '100%', p: '0.75em' } }}>
                     <div>
                       <Typography variant="h5" component="div" className="Typography">
