@@ -20,7 +20,7 @@ import NoteDetail from "../components/NoteDetail";
 import { NOTE_COLORS } from "../utils/CONSTANTS";
 
 const MiCard = styled(Grid)(({ theme }) => ({
-  color: "#f5f5f5",
+  color: "#181818",
   // backgroundColor: db_base.color === "black" ? "#1A2027" : "#fff"
 }));
 
@@ -84,18 +84,18 @@ function NoteList() {
                   setModalInfo(data);
                 }} className="miCard" sx={{ m: 'auto', backgroundColor: NOTE_COLORS[data.color]  }} >
                   <Grid item xs sx={{ p: '0.75em', '@media screen and (max-width: 890px)': { maxWidth: '100%', p: '0.75em' } }}>
-                    <div>
-                      <Typography variant="h5" component="div" className="Typography">
+                    <div className='divTitle'>
+                      <span className='textTitle'>
                         {data.title}
-                      </Typography>
+                      </span>
                     </div>
-                    <div className='pregunta'>
-                      <span>{data.content}</span>
+                    <div className='divContent'>
+                      <span className='textContent'>{data.content}</span>
                     </div>
                     <br></br>
                     <div className='pregunta'>
                       <small>Created at: </small>
-                      <span>{data.created_at}</span>.
+                      <span>{data.created_at}</span>
                       {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
                     </div>
                     <IconButton aria-label="delete" onClick={(e) => { e.stopPropagation(); deleteButton(data.id, data) }}>

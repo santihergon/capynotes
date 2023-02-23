@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-body{
-  font-family: 'Figtree';
+body {
+  font-family: "Figtree";
 }
 
 .App {
@@ -60,14 +60,44 @@ body{
   justify-content: center;
 }
 
-.miCard{
+.miCard {
   border-radius: 0.5rem;
   box-shadow: #00000036 0px 4px 6px -1px, #00000028 0px 2px 4px -1px;
 }
-.miCard:hover{
-  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.6),0 1px 3px 1px rgba(0,0,0,0.302);
+.miCard:hover {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.6), 0 1px 3px 1px rgba(0, 0, 0, 0.302);
 }
 
 .Typography {
-  font-family: 'Figtree' !important;
+  font-family: "Figtree" !important;
+  box-sizing: border-box !important;
+}
+
+.textFieldTitle {
+  padding-bottom: 1%;
+}
+
+.textFieldTitle .MuiInput-input {
+  font-size: 1.375rem !important;
+  font-weight: 500 !important;
+  font-family: "Figtree" !important;
+  color: #181818 !important;
+}
+.textFieldContent .MuiInput-input {
+  font-weight: 400 !important;
+  font-family: "Figtree" !important;
+}
+
+
+.divTitle{
+  padding-bottom: 1.5%;
+}
+.textTitle{
+ font-size: 1.3rem !important;
+}
+.divContent{
+}
+.textContent{
+  font-weight: 400 !important;
+ font-size: 0.95rem !important;
 }
