@@ -94,40 +94,31 @@ body {
 .textTitle {
   font-size: 1.3rem !important;
 }
-.divContent {
-}
 .textContent {
   font-weight: 400 !important;
   font-size: 0.95rem !important;
 }
 
-::-webkit-scrollbar-corner {
+/* ::-webkit-scrollbar-corner {
     background: transparent;
-}
-
+} */
+/*
 ::-webkit-scrollbar {
-    background-color: rgba(255,255,255,.3) !important;
-    background-clip: padding-box !important;
-    border: solid transparent !important;
-    border-width: 1px 1px 1px 6px !important;
-    min-height: 28px !important;
-    padding: 100px 0 0 !important;
-    -webkit-box-shadow: inset 1px 1px 0 rgb(0 0 0 / 10%), inset 0 -1px 0 rgb(0 0 0 / 7%) !important;
-    box-shadow: inset 1px 1px 0 rgb(0 0 0 / 10%), inset 0 -1px 0 rgb(0 0 0 / 7%) !important;
-}
+  background-color: rgba(255, 255, 255, 0.3) !important;
 
-::-webkit-scrollbar-track {
-    background-clip: padding-box !important;
-    border: solid transparent !important;
-    border-width: 0 0 0 4px !important;
-}
+} */
 
+::-webkit-scrollbar-thumb {
+  background: #ffffff53 !important;
+  border-radius: 5px;
+}
+/*
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
+  background: #ffffff6f !important;
+  border-radius: 0.4em;
+} */
 
 ::-webkit-scrollbar {
-    height: 16px;
-    overflow: visible;
-    width: 16px;
+  width: 10px ;
+  border-radius: 5px;
 }
