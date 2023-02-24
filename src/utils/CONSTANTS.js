@@ -5,4 +5,4 @@ export const NOTE_COLORS = {
     "yellow": '#c9b31b',
     "white": '#919191',
     "black": '#1A2027'
-    };
+};

@@ -84,15 +84,17 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
     const LikeAction = () => {
         return <div className="action-btn ">
             {Object.keys(NOTE_COLORS).map((key, value) => {
-                return <Checkbox
-                    key={key}
-                    id={key}
-                    className='hover-pink'
-                    icon={<CircleIcon style={{ color: NOTE_COLORS[key] }} />}
-                    checkedIcon={<CircleIcon style={{ color: NOTE_COLORS[key], border: '1px solid' + NOTE_COLORS[key], borderRadius:'24px' }} />}
-                    checked={checked === key}
-                    onClick={handleChangeBtnSetColor}
-                />
+                return <Tooltip key={key} title={key}>
+                    <Checkbox
+                        key={key}
+                        id={key}
+                        className='hover-pink'
+                        icon={<CircleIcon style={{ color: NOTE_COLORS[key] }} />}
+                        checkedIcon={<CircleIcon style={{ color: NOTE_COLORS[key], border: '1px solid' + NOTE_COLORS[key], borderRadius: '24px' }} />}
+                        checked={checked === key}
+                        onClick={handleChangeBtnSetColor}
+                    />
+                </Tooltip>
             })}
             {/* <Checkbox
                 id="red"
@@ -143,9 +145,9 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                 closeAfterTransition
             >
                 <Fade in={open}>
-                    <Grid item key={modalInfo?.id} xs={12} sm={12} md={6} lg={6} xl={4} className='gridCards'>
-                        <MiCard container className="miCard" sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 600, m: 'auto', backgroundColor: NOTE_COLORS[modalInfo.color] }} >
-                            <Grid item xs sx={{ p: '0.75em', '@media screen and (max-width: 890px)': { maxWidth: '100%', p: '0.75em' } }}>  {/* Creo que se puede quitar */}
+                    <MiCard container item className="miCard" xs={9.5} sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 600, m: 'auto', backgroundColor: NOTE_COLORS[modalInfo.color] }} >
+                        <Grid item xs sx={{ p: '0.75em', '@media screen and (max-width: 890px)': { maxWidth: '100%', p: '0.75em' } }}>  {/* Creo que se puede quitar */}
+                            <div className="ContentCard">
                                 <div className='textFieldTitle'>
                                     <TextField
                                         id="outlined-multiline-flexible"
@@ -156,14 +158,13 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                                         // value={noteTitle}
                                         onChange={handleChangeTitle}
                                         variant="standard"
-                                        InputProps={{
-                                            disableUnderline: true,
-                                        }}
+                                        InputProps={{ disableUnderline: true }}
                                     />
                                 </div>
                                 <div className='textFieldContent'>
                                     <TextField
-                                        id="outlined-multiline-flexible"
+                                        id="filled-multiline-static"
+                                        maxRows="30"
                                         multiline
                                         // defaultValue={modalInfo.content}
                                         defaultValue={modalInfo?.content || ''}
@@ -173,9 +174,7 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                                         // value={noteText}
                                         onChange={handleChangeContent}
                                         variant="standard"
-                                        InputProps={{
-                                            disableUnderline: true,
-                                        }}
+                                        InputProps={{ disableUnderline: true }}
                                     />
                                 </div>
                                 <br></br>
@@ -184,26 +183,26 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                                     <span>{modalInfo?.created_at}</span>
                                     {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
                                 </div>
-                                <div>
-                                    <IconButton aria-label="delete" onClick={() => deleteButton(modalInfo?.id, modalInfo)}>
-                                        <DeleteRoundedIcon />
-                                    </IconButton>
-                                    <IconButton aria-label="setColor" onClick={handleClickPopover} >
-                                        <ColorLensRoundedIcon />
-                                    </IconButton>
-                                    <Popover
-                                        id='simple-popover'
-                                        open={openPopover}
-                                        anchorEl={anchorEl}
-                                        onClose={handleClosePopover}
-                                        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-                                    >
-                                        <LikeAction />
-                                    </Popover>
-                                </div>
-                            </Grid>
-                        </MiCard>
-                    </Grid>
+                            </div>
+                            <div className="footerCard">
+                                <IconButton aria-label="delete" onClick={() => deleteButton(modalInfo?.id, modalInfo)}>
+                                    <DeleteRoundedIcon />
+                                </IconButton>
+                                <IconButton aria-label="setColor" onClick={handleClickPopover} >
+                                    <ColorLensRoundedIcon />
+                                </IconButton>
+                                <Popover
+                                    id='simple-popover'
+                                    open={openPopover}
+                                    anchorEl={anchorEl}
+                                    onClose={handleClosePopover}
+                                    anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                                >
+                                    <LikeAction />
+                                </Popover>
+                            </div>
+                        </Grid>
+                    </MiCard>
                 </Fade>
             </Modal>
         </div>

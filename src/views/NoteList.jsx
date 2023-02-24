@@ -68,21 +68,23 @@ function NoteList() {
     setModalInfo([]);
     handleClose();
   }
+  const heights = [150, 30, 90, 70, 90, 100, 150, 30, 50, 80];
+
 
   return (
     <section className="showcase">
       <Button variant="outlined" startIcon={<AddIcon />} onClick={() => handleOpen()}>Añadir Nota</Button>
-      <Box sx={{ width: 1500, minHeight: 1393 }}>
-        <Masonry columns={5} spacing={2}>
+      <Box sx={{ width: 1500, minHeight: 1393, }}>
+        <Masonry columns={{ xs: 1, sm: 2, md:3, lg: 4, xl: 5 }} spacing={2.5}>
           {/* {dataBase.sort((a, b) => (a.id > b.id) ? -1 : 1).map((data, key) => { */}
           {dataBase.map((data, key) => {
             return (
-              <Grid item key={data.id} xs={12} sm={12} md={6} lg={6} xl={4} className='gridCards'>
+              <Grid item key={data.id} className='gridCards'>
                 <MiCard container onClick={() => {
                   // setOpen(true);
                   handleOpen();
                   setModalInfo(data);
-                }} className="miCard" sx={{ m: 'auto', backgroundColor: NOTE_COLORS[data.color]  }} >
+                }} className="miCard" sx={{ m: 'auto', backgroundColor: NOTE_COLORS[data.color] }} >
                   <Grid item xs sx={{ p: '0.75em', '@media screen and (max-width: 890px)': { maxWidth: '100%', p: '0.75em' } }}>
                     <div className='divTitle'>
                       <span className='textTitle'>
