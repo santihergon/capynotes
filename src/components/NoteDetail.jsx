@@ -145,7 +145,10 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                 closeAfterTransition
             >
                 <Fade in={open}>
-                    <MiCard container item className="miCard" xs={9.5} sx={{  position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 600, m: 'auto', backgroundColor: NOTE_COLORS[modalInfo.color] }} >
+                    <MiCard container item className="miCard" xs={9.5} sx={{
+                        position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 600, m: 'auto', backgroundColor: NOTE_COLORS[modalInfo.color],
+                        '@media screen and (max-height: 890px)': { maxHeight: "60%" }
+                    }} >
                         <Grid item xs sx={{ p: '0.75em', '@media screen and (max-width: 890px)': { maxWidth: '100%', p: '0.75em' } }}>  {/* Creo que se puede quitar */}
                             <div className="ContentCard">
                                 <div className='textFieldTitle'>
@@ -174,7 +177,8 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                                         // value={noteText}
                                         onChange={handleChangeContent}
                                         variant="standard"
-                                        InputProps={{ disableUnderline: true }}
+                                        InputProps={{ disableUnderline: true,  }}
+                                        sx={{ sm: { maxRows: 4 }  }}
                                     />
                                 </div>
                                 <br></br>
