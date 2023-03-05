@@ -88,6 +88,15 @@ body {
   font-family: "Figtree" !important;
 }
 
+.contentCard {
+}
+
+.footerCard {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+}
+
 .divTitle {
   padding-bottom: 1.5%;
 }
@@ -99,14 +108,9 @@ body {
   font-size: 0.95rem !important;
 }
 
-/* ::-webkit-scrollbar-corner {
-    background: transparent;
-} */
-/*
-::-webkit-scrollbar {
-  background-color: rgba(255, 255, 255, 0.3) !important;
-
-} */
+::-webkit-scrollbar-corner {
+  display: none;
+}
 
 ::-webkit-scrollbar-thumb {
   background: #ffffff53 !important;
@@ -119,6 +123,7 @@ body {
 } */
 
 ::-webkit-scrollbar {
-  width: 10px ;
+  width: 10px;
   border-radius: 5px;
+  height: 0;
 }

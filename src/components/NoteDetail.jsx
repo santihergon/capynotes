@@ -22,6 +22,7 @@ import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 import Zoom from '@mui/material/Zoom';
+
 import { NOTE_COLORS } from "../utils/CONSTANTS";
 
 const style = {
@@ -147,10 +148,9 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                 <Fade in={open}>
                     <MiCard container item className="miCard" xs={9.5} sx={{
                         position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 600, m: 'auto', backgroundColor: NOTE_COLORS[modalInfo.color],
-                        '@media screen and (max-height: 890px)': { maxHeight: "60%" }
-                    }} >
-                        <Grid item xs sx={{ p: '0.75em', '@media screen and (max-width: 890px)': { maxWidth: '100%', p: '0.75em' } }}>  {/* Creo que se puede quitar */}
-                            <div className="ContentCard">
+                        overflow: "scroll", maxHeight: "90%" }} >
+                        <Grid item xs sx={{ px: '0.75em', pt: '0.75em' }}>  {/* Creo que se puede quitar */}
+                            <div className="contentCard" >
                                 <div className='textFieldTitle'>
                                     <TextField
                                         id="outlined-multiline-flexible"
@@ -158,37 +158,35 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                                         defaultValue={modalInfo?.title || ''}
                                         placeholder='Título'
                                         fullWidth
-                                        // value={noteTitle}
                                         onChange={handleChangeTitle}
                                         variant="standard"
                                         InputProps={{ disableUnderline: true }}
+
                                     />
                                 </div>
-                                <div className='textFieldContent'>
+                                <div className='textFieldContent' >
                                     <TextField
                                         id="filled-multiline-static"
-                                        maxRows="30"
+                                        //maxRows="24"
                                         multiline
-                                        // defaultValue={modalInfo.content}
                                         defaultValue={modalInfo?.content || ''}
                                         placeholder='Añade una nota...'
                                         fullWidth
                                         autoFocus
-                                        // value={noteText}
                                         onChange={handleChangeContent}
                                         variant="standard"
-                                        InputProps={{ disableUnderline: true,  }}
-                                        sx={{ sm: { maxRows: 4 }  }}
+                                        InputProps={{ disableUnderline: true, }}
                                     />
+                                    {/*<span className="input" role="textbox" contentEditable onChange={handleChangeContent}>{modalInfo.content}</span>*/}
                                 </div>
-                                <br></br>
+                            </div>
+
+                            <div className="footerCard" style={{ backgroundColor: NOTE_COLORS[modalInfo.color] }} >
                                 <div className='pregunta'>
                                     <small>Created at: </small>
                                     <span>{modalInfo?.created_at}</span>
                                     {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
                                 </div>
-                            </div>
-                            <div className="footerCard">
                                 <IconButton aria-label="delete" onClick={() => deleteButton(modalInfo?.id, modalInfo)}>
                                     <DeleteRoundedIcon />
                                 </IconButton>

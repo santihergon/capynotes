@@ -75,7 +75,7 @@ function NoteList() {
     <section className="showcase">
       <Button variant="outlined" startIcon={<AddIcon />} onClick={() => handleOpen()}>Añadir Nota</Button>
       <Box sx={{ width: 1500, minHeight: 1393, }}>
-        <Masonry columns={{ xs: 1, sm: 2, md:3, lg: 4, xl: 5 }} spacing={2.5}>
+        <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }} spacing={2.5}>
           {/* {dataBase.sort((a, b) => (a.id > b.id) ? -1 : 1).map((data, key) => { */}
           {dataBase.map((data, key) => {
             return (
