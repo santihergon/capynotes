@@ -103,8 +103,6 @@ function NoteList() {
                       <span className='textContent'>{data.content}</span>
                     </div>
                     <br></br>
-                    <small>Id: {data.id}</small>
-
                     {/*<div className='pregunta'>
                       <small>Created at: </small>
                       <small>{data.created_at}</small>*/}
