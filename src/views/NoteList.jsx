@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
@@ -18,6 +18,10 @@ import db_base from "../db/db_base.json";
 import Note from "../components/Note";
 import NoteDetail from "../components/NoteDetail";
 import { NOTE_COLORS } from "../utils/CONSTANTS";
+import { NOTE_COLORS_LIGHT } from "../utils/CONSTANTS";
+
+import { useTheme } from '@mui/material/styles';
+import ColorModeContext from "../contexts/ColorModeContext";
 
 const MiCard = styled(Grid)(({ theme }) => ({
   color: "#181818",
@@ -33,6 +37,10 @@ const checkDb = () => {
 }
 
 function NoteList() {
+  const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
+
+
   const [dataBase, setDataBase] = useState(checkDb());// Paso el json a un useState para que sea más accesible y rápido(?)
   const [open, setOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState([]);
@@ -68,14 +76,13 @@ function NoteList() {
     setModalInfo([]);
     handleClose();
   }
-  const heights = [150, 30, 90, 70, 90, 100, 150, 30, 50, 80];
-
 
   return (
-    <section className="showcase">
-      <Button variant="outlined" startIcon={<AddIcon />} onClick={() => handleOpen()}>Añadir Nota</Button>
-      <Box sx={{ width: 1500, minHeight: 1393, }}>
-        <Masonry columns={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }} spacing={2.5}>
+    <section className="showcase" style={{ paddingRight: "1%", paddingLeft: "1%", backgroundColor: theme.palette.mode === 'light' ? 'white' : '#272b33' }}>
+      <Button style={{ backgroundColor: theme.palette.mode === 'light' ? '#272b33' : '#fff475', color: theme.palette.mode === 'light' ? '#fff475' : '#272b33' }}
+        startIcon={<AddIcon />} onClick={() => handleOpen()}>Añadir Nota</Button>
+      <Box>
+        <Masonry sx={{ m: 0 }} columns={{ xs: 1, sm: 2, md: 3, lg: 5, xl: 6 }} spacing={2.5}>
           {/* {dataBase.sort((a, b) => (a.id > b.id) ? -1 : 1).map((data, key) => { */}
           {dataBase.map((data, key) => {
             return (
@@ -84,7 +91,9 @@ function NoteList() {
                   // setOpen(true);
                   handleOpen();
                   setModalInfo(data);
-                }} className="miCard" sx={{ m: 'auto', backgroundColor: NOTE_COLORS[data.color] }} >
+                  //}} className="miCard" sx={{ m: 'auto', backgroundColor: NOTE_COLORS_LIGHT[data.color] }} >
+                }} className="miCard" sx={{ m: 'auto', backgroundColor: theme.palette.mode === 'light' ? NOTE_COLORS_LIGHT[data.color] : NOTE_COLORS[data.color], color: theme.palette.mode === 'light' ? '#272b33' : 'white' }} >
+
                   <Grid item xs sx={{ p: '0.75em', '@media screen and (max-width: 890px)': { maxWidth: '100%', p: '0.75em' } }}>
                     <div className='divTitle'>
                       <span className='textTitle'>
@@ -95,11 +104,11 @@ function NoteList() {
                       <span className='textContent'>{data.content}</span>
                     </div>
                     <br></br>
-                    <div className='pregunta'>
+                    {/*<div className='pregunta'>
                       <small>Created at: </small>
-                      <span>{data.created_at}</span>
-                      {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
-                    </div>
+                      <small>{data.created_at}</small>*/}
+                    {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
+                    {/*</div>*/}
                     <IconButton aria-label="delete" onClick={(e) => { e.stopPropagation(); deleteButton(data.id, data) }}>
                       <DeleteRoundedIcon />
                     </IconButton>

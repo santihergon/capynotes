@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext, } from "react";
 
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -13,7 +13,7 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import { styled } from "@mui/material/styles";
-import TextareaAutosize from '@mui/base/TextareaAutosize';
+//import TextareaAutosize from '@mui/base/TextareaAutosize';
 import Checkbox from '@mui/material/Checkbox';
 import CircleIcon from '@mui/icons-material/Circle';
 import Popover from '@mui/material/Popover';
@@ -24,6 +24,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Zoom from '@mui/material/Zoom';
 
 import { NOTE_COLORS } from "../utils/CONSTANTS";
+import { NOTE_COLORS_LIGHT } from "../utils/CONSTANTS";
+
+import { useTheme } from '@mui/material/styles';
+import ColorModeContext from "../contexts/ColorModeContext";
+
 
 const style = {
     position: 'absolute',
@@ -38,11 +43,16 @@ const style = {
 };
 
 const MiCard = styled(Grid)(({ theme }) => ({
-    color: "#f5f5f5",
-    backgroundColor: "#2a7bb5"
+    //color: "#f5f5f5",
+    backgroundColor: theme.palette.mode === 'light' ? NOTE_COLORS_LIGHT.white : NOTE_COLORS.white
+    //backgroundColor: "white"
+
 }));
 
 function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, dataBase, setModalInfo }) {
+
+    const theme = useTheme();
+    const colorMode = useContext(ColorModeContext);
 
     const [newCreateNote, setNewCreateNote] = useState(null);
     const [noteContent, setNoteContent] = useState('');
@@ -50,7 +60,7 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
     const [date, setDate] = useState(new Date());
     const [checked, setChecked] = useState(null);
     const isUpdate = !Array.isArray(modalInfo)
-    const noteColor = modalInfo?.color || 'blue'
+    const noteColor = modalInfo?.color || 'white'
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClickPopover = (event) => {
@@ -84,39 +94,25 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
 
     const LikeAction = () => {
         return <div className="action-btn ">
-            {Object.keys(NOTE_COLORS).map((key, value) => {
+            {Object.keys(NOTE_COLORS_LIGHT).map((key, value) => {
                 return <Tooltip key={key} title={key}>
                     <Checkbox
                         key={key}
                         id={key}
                         className='hover-pink'
-                        icon={<CircleIcon style={{ color: NOTE_COLORS[key] }} />}
-                        checkedIcon={<CircleIcon style={{ color: NOTE_COLORS[key], border: '1px solid' + NOTE_COLORS[key], borderRadius: '24px' }} />}
+                        icon={<CircleIcon style={{ color: theme.palette.mode === 'light' ? NOTE_COLORS_LIGHT[key] : NOTE_COLORS[key] }} />}
+                        checkedIcon={<CircleIcon style={{ color: theme.palette.mode === 'light' ? NOTE_COLORS_LIGHT[key] : NOTE_COLORS[key], border: '1px solid' + theme.palette.mode === 'light' ? NOTE_COLORS_LIGHT[key] : NOTE_COLORS[key], borderRadius: '24px' }} />}
                         checked={checked === key}
                         onClick={handleChangeBtnSetColor}
                     />
                 </Tooltip>
             })}
-            {/* <Checkbox
-                id="red"
-                className='hover-pink'
-                icon={<CircleIcon />}
-                checkedIcon={<CircleIcon style={{ color: 'red', fill: 'red' }} />}
-                checked={checked === "red"}
-                onClick={handleChangeBtnSetColor} />
-            <Checkbox
-                id="green"
-                className='hover-pink'
-                icon={<CircleIcon />}
-                checkedIcon={<CircleIcon style={{ color: 'green', fill: 'green' }} />}
-                checked={checked === "green"}
-                onClick={handleChangeBtnSetColor} /> */}
         </div>
     }
 
     const closeModal = (event) => {
         modalInfo.created_at = date.toLocaleString();
-        if (modalInfo.content) {
+        if (modalInfo.content || modalInfo.title) {
             const date = new Date();
             const newNote = {
                 id: dataBase[dataBase.length - 1].id + 1,
@@ -136,7 +132,7 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
     };
 
     return (
-        <div>
+        <div data-theme={theme}>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -145,10 +141,12 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                 onClose={closeModal}
                 closeAfterTransition
             >
-                <Fade in={open}>
+                <Fade in={open} timeout={230}>
                     <MiCard container item className="miCard" xs={9.5} sx={{
-                        position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 600, m: 'auto', backgroundColor: NOTE_COLORS[modalInfo.color],
-                        overflow: "scroll", maxHeight: "90%" }} >
+                        position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 600, m: 'auto',
+                        backgroundColor: theme.palette.mode === 'light' ? NOTE_COLORS_LIGHT[modalInfo.color] : NOTE_COLORS[modalInfo.color],
+                        overflow: "scroll", maxHeight: "90%"
+                    }} >
                         <Grid item xs sx={{ px: '0.75em', pt: '0.75em' }}>  {/* Creo que se puede quitar */}
                             <div className="contentCard" >
                                 <div className='textFieldTitle'>
@@ -175,16 +173,15 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                                         autoFocus
                                         onChange={handleChangeContent}
                                         variant="standard"
-                                        InputProps={{ disableUnderline: true, }}
+                                        InputProps={{ disableUnderline: true }}
                                     />
-                                    {/*<span className="input" role="textbox" contentEditable onChange={handleChangeContent}>{modalInfo.content}</span>*/}
                                 </div>
                             </div>
-
-                            <div className="footerCard" style={{ backgroundColor: NOTE_COLORS[modalInfo.color] }} >
+                            <div className="footerCard" style={{ backgroundColor: theme.palette.mode === 'light' ? NOTE_COLORS_LIGHT[modalInfo.color] : NOTE_COLORS[modalInfo.color] }} >
                                 <div className='pregunta'>
-                                    <small>Created at: </small>
-                                    <span>{modalInfo?.created_at}</span>
+                                    {modalInfo?.created_at ? (
+                                        <small style={{ color: theme.palette.mode === 'light' ? 'dark' : 'white' }}>Created at: {modalInfo?.created_at}</small>
+                                    ) : null}
                                     {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
                                 </div>
                                 <IconButton aria-label="delete" onClick={() => deleteButton(modalInfo?.id, modalInfo)}>
