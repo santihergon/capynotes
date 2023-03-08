@@ -83,8 +83,7 @@ function NoteList() {
         startIcon={<AddIcon />} onClick={() => handleOpen()}>Añadir Nota</Button>
       <Box>
         <Masonry sx={{ m: 0 }} columns={{ xs: 1, sm: 2, md: 3, lg: 5, xl: 6 }} spacing={2.5}>
-          {/* {dataBase.sort((a, b) => (a.id > b.id) ? -1 : 1).map((data, key) => { */}
-          {dataBase.map((data, key) => {
+          {dataBase.sort((a, b) => (a.created_at > b.created_at) ? -1 : 1).map((data, key) => {
             return (
               <Grid item key={data.id} className='gridCards'>
                 <MiCard container onClick={() => {
@@ -104,6 +103,8 @@ function NoteList() {
                       <span className='textContent'>{data.content}</span>
                     </div>
                     <br></br>
+                    <small>Id: {data.id}</small>
+
                     {/*<div className='pregunta'>
                       <small>Created at: </small>
                       <small>{data.created_at}</small>*/}

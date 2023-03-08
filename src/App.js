@@ -104,7 +104,7 @@ function App() {
   return (
     <BrowserRouter>
       <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider data-theme={theme} theme={theme}>
+        <ThemeProvider theme={theme}>
           <Header />
           <main>
             <Routes>

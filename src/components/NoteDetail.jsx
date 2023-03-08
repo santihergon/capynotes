@@ -115,7 +115,7 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
         if (modalInfo.content || modalInfo.title) {
             const date = new Date();
             const newNote = {
-                id: dataBase[dataBase.length - 1].id + 1,
+                id: dataBase.length + 1,
                 title: modalInfo.title,
                 content: modalInfo.content,
                 created_at: date.toLocaleString(),
@@ -132,7 +132,7 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
     };
 
     return (
-        <div data-theme={theme}>
+        <div>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
