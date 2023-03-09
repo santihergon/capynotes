@@ -108,6 +108,8 @@ function NoteDetail({ open, oldModalInfoContent, oldModalInfoTitle, oldModalInfo
 
     const closeModal = () => {
         if ((oldModalInfoContent !== modalInfo.content || oldModalInfoTitle !== modalInfo.title) && (modalInfo.content || modalInfo.title)) {
+            //if ((oldModalInfoContent !== modalInfo.content || oldModalInfoTitle !== modalInfo.title)) {
+
             const date = new Date();
             const newNote = {
                 id: dataBase.length + 1,
@@ -120,6 +122,9 @@ function NoteDetail({ open, oldModalInfoContent, oldModalInfoTitle, oldModalInfo
             if (!isUpdate) {
                 dataBase.push(newNote);
             }
+            updateDb([...dataBase]);
+        }
+        if (!(modalInfo.content || modalInfo.title) || modalInfo.color) {
             updateDb([...dataBase]);
         }
 
@@ -142,7 +147,7 @@ function NoteDetail({ open, oldModalInfoContent, oldModalInfoTitle, oldModalInfo
                     <MiCard container item className="miCard" xs={9.5} sx={{
                         position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 600, m: 'auto',
                         backgroundColor: theme.palette.mode === 'light' ? NOTE_COLORS_LIGHT[modalInfo.color] : NOTE_COLORS[modalInfo.color],
-                        overflow: "scroll", maxHeight: "90%"
+                        overflow: "scroll", maxHeight: "90%",
                     }} >
                         <Grid item xs sx={{ px: '0.75em', pt: '0.75em' }}>  {/* Creo que se puede quitar */}
                             <div className="contentCard" >
@@ -194,12 +199,17 @@ function NoteDetail({ open, oldModalInfoContent, oldModalInfoTitle, oldModalInfo
                                     {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
 
                                 </div>
-                                <IconButton aria-label="delete" onClick={() => deleteButton(modalInfo?.id, modalInfo)}>
-                                    <DeleteRoundedIcon />
-                                </IconButton>
-                                <IconButton aria-label="setColor" onClick={handleClickPopover} >
-                                    <ColorLensRoundedIcon />
-                                </IconButton>
+                                <Tooltip title={"Delete"}>
+                                    <IconButton aria-label="delete" onClick={() => deleteButton(modalInfo?.id, modalInfo)}>
+                                        <DeleteRoundedIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                {/*<IconButton aria-label="setColor" onClick={handleClickPopover} >*/}
+                                <Tooltip title={"Change color"}>
+                                    <IconButton aria-label="setColor" onClick={handleClickPopover} >
+                                        <ColorLensRoundedIcon />
+                                    </IconButton>
+                                </Tooltip>
                                 <Popover
                                     id='simple-popover'
                                     open={openPopover}

@@ -8,6 +8,11 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import IconButton from '@mui/material/IconButton';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded';
+import CircleIcon from '@mui/icons-material/Circle';
+import Popover from '@mui/material/Popover';
+import Tooltip from '@mui/material/Tooltip';
+import Checkbox from '@mui/material/Checkbox';
 
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
@@ -47,7 +52,19 @@ function NoteList() {
   const [oldModalInfoTitle, setOldModalInfoTitle] = useState(null);
   const [oldModalInfoContent, setOldModalInfoContent] = useState(null);
   const [oldModalInfoDate, setOldModalInfoDate] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [checked, setChecked] = useState(null); 
+  const [hoverNote, setHoverNote] = useState(false);
 
+  const handleClickPopover = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClosePopover = () => {
+    setAnchorEl(null);
+  };
+
+  const openPopover = Boolean(anchorEl);
 
   const handleOpen = (content, title, created_at) => {
 
@@ -89,16 +106,63 @@ function NoteList() {
     handleClose();
   }
 
+  const handleChangeBtnSetColor = (event) => {
+
+    if (checked === event.target.id) {
+      setChecked(null);
+    } else {
+      setChecked(event.target.id);
+      modalInfo.color = event.target.id;
+    }
+  };
+
+  const ColorSelector = () => {
+    return <div className="action-btn ">
+      {Object.keys(NOTE_COLORS_LIGHT).map((key, value) => {
+        return <Tooltip key={key} title={key}>
+          <Checkbox
+            key={key}
+            id={key}
+            className='hover-pink'
+            icon={<CircleIcon style={{ color: theme.palette.mode === 'light' ? NOTE_COLORS_LIGHT[key] : NOTE_COLORS[key] }} />}
+            checkedIcon={<CircleIcon style={{ color: theme.palette.mode === 'light' ? NOTE_COLORS_LIGHT[key] : NOTE_COLORS[key], border: '1px solid' + theme.palette.mode === 'light' ? NOTE_COLORS_LIGHT[key] : NOTE_COLORS[key], borderRadius: '24px' }} />}
+            checked={checked === key}
+            onClick={handleChangeBtnSetColor}
+          />
+        </Tooltip>
+      })}
+    </div>
+  }
+
+  function MouseOver() {
+    setHoverNote(true);
+  }
+  function MouseOut() {
+    setHoverNote(false);
+  }
+
+  //const EmptyNote = (content, title) => {
+  //  if (!(content && title)) {
+  //    console.log("notavaciaaa")
+  //    return <div className='divContent' style={{ backgroundColor: 'red' }}>
+  //      <span className='textContent'>
+  //        Nota vacía
+  //      </span>
+  //    </div>
+  //  }
+  //}
+
+
   return (
     <section className="showcase" style={{ paddingRight: "1%", paddingLeft: "1%", backgroundColor: theme.palette.mode === 'light' ? 'white' : '#272b33' }}>
       <Button style={{ backgroundColor: theme.palette.mode === 'light' ? '#272b33' : '#fff475', color: theme.palette.mode === 'light' ? '#fff475' : '#272b33' }}
         startIcon={<AddIcon />} onClick={() => handleOpen()}>Añadir Nota</Button>
       <Box>
-        <Masonry sx={{ m: 0 }} columns={{ xs: 1, sm: 2, md: 3, lg: 5, xl: 6 }} spacing={2.5}>
+        <Masonry sx={{ m: 0 }} columns={{ xs: 2, sm: 2, md: 3, lg: 5, xl: 6 }} spacing={2.5}>
           {dataBase.sort((a, b) => (a.created_at > b.created_at) ? -1 : 1).map((data, key) => {
             return (
               <Grid item key={data.id} className='gridCards'>
-                <MiCard container onClick={() => {
+                <MiCard onMouseOver={MouseOver} onMouseOut={MouseOut} container onClick={() => {
                   // setOpen(true);
                   handleOpen(data.content, data.title, data.created_at);
                   setModalInfo(data);
@@ -111,18 +175,49 @@ function NoteList() {
                         {data.title}
                       </span>
                     </div>
+                    {/*{data.title}*/}
                     <div className='divContent'>
-                      <span className='textContent'>{data.content}</span>
+                      <span className='textContent'>
+                        {data.content}
+                      </span>
                     </div>
+                    {/*<EmptyNote content={data.content} title={data.title} />*/}
+                    {data.title || data.content ? (
+                      null) : <div className='divContent'>
+                      <span className='textContent' style={{ color: theme.palette.mode === 'light' ? '#5f6368' : '#ffffffb3' }}>
+                        Nota vacía
+                      </span>
+                    </div>}
                     <br></br>
                     {/*<div className='pregunta'>
                       <small>Created at: </small>*/}
                     {/*<small>{data.created_at}</small>*/}
                     {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
                     {/*</div>*/}
-                    <IconButton aria-label="delete" onClick={(e) => { e.stopPropagation(); deleteButton(data.id, data) }}>
-                      <DeleteRoundedIcon />
-                    </IconButton>
+                    {/*{hoverNote === true ? (*/}
+                    <div className={"footerCardNoteList" + (hoverNote === true ? "showIconsCardHover" : "NotShowIconsCardHover")}>
+                      <Tooltip title={"Delete"}>
+                        <IconButton aria-label="delete" onClick={(e) => { e.stopPropagation(); deleteButton(data.id, data) }}>
+                          <DeleteRoundedIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title={"Change color"}>
+                        <IconButton aria-label="setColor" onClick={handleClickPopover} >
+                          <ColorLensRoundedIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Popover
+                        id='simple-popover'
+                        open={openPopover}
+                        anchorEl={anchorEl}
+                        onClose={handleClosePopover}
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                      >
+                        <ColorSelector />
+                      </Popover>
+                    </div>
+                    {/*) : null}*/}
+
                   </Grid>
                 </MiCard>
               </Grid>
