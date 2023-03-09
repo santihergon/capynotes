@@ -49,15 +49,11 @@ const MiCard = styled(Grid)(({ theme }) => ({
 
 }));
 
-function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, dataBase, setModalInfo }) {
+function NoteDetail({ open, oldModalInfoContent, oldModalInfoTitle, oldModalInfoDate, handleClose, modalInfo, deleteButton, updateDb, dataBase, setModalInfo }) {
 
     const theme = useTheme();
     const colorMode = useContext(ColorModeContext);
 
-    const [newCreateNote, setNewCreateNote] = useState(null);
-    const [noteContent, setNoteContent] = useState('');
-    const [noteTitle, setNoteTitle] = useState('');
-    const [date, setDate] = useState(new Date());
     const [checked, setChecked] = useState(null);
     const isUpdate = !Array.isArray(modalInfo)
     const noteColor = modalInfo?.color || 'white'
@@ -92,7 +88,7 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
         }
     };
 
-    const LikeAction = () => {
+    const ColorSelector = () => {
         return <div className="action-btn ">
             {Object.keys(NOTE_COLORS_LIGHT).map((key, value) => {
                 return <Tooltip key={key} title={key}>
@@ -110,22 +106,23 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
         </div>
     }
 
-    const closeModal = (event) => {
-        modalInfo.created_at = date.toLocaleString();
-        if (modalInfo.content || modalInfo.title) {
+    const closeModal = () => {
+        if ((oldModalInfoContent !== modalInfo.content || oldModalInfoTitle !== modalInfo.title) && (modalInfo.content || modalInfo.title)) {
             const date = new Date();
             const newNote = {
                 id: dataBase.length + 1,
                 title: modalInfo.title,
                 content: modalInfo.content,
-                created_at: date.toLocaleString(),
+                created_at: modalInfo.created_at = date.toLocaleString(),
+                //modified_at: modalInfo.modified_at = date.toLocaleString(),
                 color: noteColor
-            };
+            }
             if (!isUpdate) {
                 dataBase.push(newNote);
             }
             updateDb([...dataBase]);
         }
+
         setModalInfo([]);
         setChecked(null);
         handleClose();
@@ -179,10 +176,23 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                             </div>
                             <div className="footerCard" style={{ backgroundColor: theme.palette.mode === 'light' ? NOTE_COLORS_LIGHT[modalInfo.color] : NOTE_COLORS[modalInfo.color] }} >
                                 <div className='pregunta'>
+                                    {/*<small>Create at: {modalInfo?.modified_at}</small>*/}
                                     {modalInfo?.created_at ? (
-                                        <small style={{ color: theme.palette.mode === 'light' ? 'dark' : 'white' }}>Created at: {modalInfo?.created_at}</small>
+                                        <Tooltip title={"Create at: " + oldModalInfoDate}
+                                            //sx={{ backgroundColor: theme.palette.mode === 'light' ? "red" : 'rgb(70 70 70 / 35%)', color: theme.palette.mode === 'light' ? 'red' : '#272b33' }}>
+                                            componentsProps={{
+                                                tooltip: {
+                                                    sx: {
+                                                        backgroundColor: 'rgb(0 0 0 / 20%)',
+                                                        color: theme.palette.mode === 'light' ? 'black' : 'white',
+                                                    },
+                                                },
+                                            }}>
+                                            <small style={{ color: theme.palette.mode === 'light' ? 'dark' : 'white' }}>Modified at: {modalInfo?.created_at}</small>
+                                        </Tooltip>
                                     ) : null}
                                     {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
+
                                 </div>
                                 <IconButton aria-label="delete" onClick={() => deleteButton(modalInfo?.id, modalInfo)}>
                                     <DeleteRoundedIcon />
@@ -197,7 +207,7 @@ function NoteDetail({ open, handleClose, modalInfo, deleteButton, updateDb, data
                                     onClose={handleClosePopover}
                                     anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                                 >
-                                    <LikeAction />
+                                    <ColorSelector />
                                 </Popover>
                             </div>
                         </Grid>

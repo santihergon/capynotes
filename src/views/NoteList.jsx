@@ -44,9 +44,21 @@ function NoteList() {
   const [dataBase, setDataBase] = useState(checkDb());// Paso el json a un useState para que sea más accesible y rápido(?)
   const [open, setOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState([]);
+  const [oldModalInfoTitle, setOldModalInfoTitle] = useState(null);
+  const [oldModalInfoContent, setOldModalInfoContent] = useState(null);
+  const [oldModalInfoDate, setOldModalInfoDate] = useState(null);
 
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (content, title, created_at) => {
+
+    if ((content && title) !== (oldModalInfoContent && oldModalInfoTitle)) {
+      setOldModalInfoDate(created_at);
+    }
+    setOldModalInfoContent(content);
+    setOldModalInfoTitle(title);
+
+    setOpen(true)
+  };
   const handleClose = () => setOpen(false);
 
   const updateDb = (newData) => {
@@ -88,7 +100,7 @@ function NoteList() {
               <Grid item key={data.id} className='gridCards'>
                 <MiCard container onClick={() => {
                   // setOpen(true);
-                  handleOpen();
+                  handleOpen(data.content, data.title, data.created_at);
                   setModalInfo(data);
                   //}} className="miCard" sx={{ m: 'auto', backgroundColor: NOTE_COLORS_LIGHT[data.color] }} >
                 }} className="miCard" sx={{ m: 'auto', backgroundColor: theme.palette.mode === 'light' ? NOTE_COLORS_LIGHT[data.color] : NOTE_COLORS[data.color], color: theme.palette.mode === 'light' ? '#272b33' : 'white' }} >
@@ -104,8 +116,8 @@ function NoteList() {
                     </div>
                     <br></br>
                     {/*<div className='pregunta'>
-                      <small>Created at: </small>
-                      <small>{data.created_at}</small>*/}
+                      <small>Created at: </small>*/}
+                    {/*<small>{data.created_at}</small>*/}
                     {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
                     {/*</div>*/}
                     <IconButton aria-label="delete" onClick={(e) => { e.stopPropagation(); deleteButton(data.id, data) }}>
@@ -121,7 +133,7 @@ function NoteList() {
             ))} */}
         </Masonry>
       </Box>
-      <NoteDetail open={open} handleClose={handleClose} modalInfo={modalInfo} setModalInfo={setModalInfo} deleteButton={deleteButton} checkDb={checkDb} dataBase={dataBase} updateDb={updateDb} />
+      <NoteDetail open={open} oldModalInfoTitle={oldModalInfoTitle} oldModalInfoContent={oldModalInfoContent} oldModalInfoDate={oldModalInfoDate} handleClose={handleClose} modalInfo={modalInfo} setModalInfo={setModalInfo} deleteButton={deleteButton} checkDb={checkDb} dataBase={dataBase} updateDb={updateDb} />
     </section>
   );
 }
