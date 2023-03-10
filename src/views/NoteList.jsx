@@ -260,7 +260,7 @@ function NoteList() {
                     </div>*/}
                     {/*) : null}*/}
 
-                    <div className={'hiddenCardIcons'} style={{ visibility: 'hidden' }}>
+                    <div className={'hiddenCardIcons'} style={{ opacity: '0' }}>
                       <Tooltip title={"Delete"}>
                         <IconButton aria-label="delete" onClick={(e) => { e.stopPropagation(); deleteButton(data.id, data) }}>
                           <DeleteRoundedIcon />

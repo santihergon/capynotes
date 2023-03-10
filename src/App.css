@@ -74,8 +74,12 @@ body {
 }
 
 .miCard:hover .hiddenCardIcons {
-  visibility: visible !important;
-  /*transition: background-color 0.218s ease-in-out;*/
+  opacity: 1 !important;
+}
+
+.hiddenCardIcons {
+  transition-duration: 0.2s ;
+  transition-timing-function: ease-in;
 }
 
 .Typography {
