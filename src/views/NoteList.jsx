@@ -53,7 +53,7 @@ function NoteList() {
   const [oldModalInfoContent, setOldModalInfoContent] = useState(null);
   const [oldModalInfoDate, setOldModalInfoDate] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [checked, setChecked] = useState(null); 
+  const [checked, setChecked] = useState(null);
   const [hoverNote, setHoverNote] = useState(false);
 
   const handleClickPopover = (event) => {
@@ -67,7 +67,7 @@ function NoteList() {
   const openPopover = Boolean(anchorEl);
 
   const handleOpen = (content, title, created_at) => {
-
+    //if ((content !== oldModalInfoContent) || (title !== oldModalInfoTitle)) { //Esta otra forma está bien?????????
     if ((content && title) !== (oldModalInfoContent && oldModalInfoTitle)) {
       setOldModalInfoDate(created_at);
     }
@@ -106,13 +106,13 @@ function NoteList() {
     handleClose();
   }
 
-  const handleChangeBtnSetColor = (event) => {
-
+  const handleChangeBtnSetColor = (event, color) => {
+    console.log(color)
     if (checked === event.target.id) {
       setChecked(null);
     } else {
       setChecked(event.target.id);
-      modalInfo.color = event.target.id;
+      color = event.target.id;
     }
   };
 
@@ -134,11 +134,53 @@ function NoteList() {
     </div>
   }
 
-  function MouseOver() {
+  function MouseOver(colorito, ide, data) {
     setHoverNote(true);
+    return <div style={{ display: 'flex' }}>
+      <Tooltip title={"Delete"}>
+        <IconButton aria-label="delete" onClick={(e) => { e.stopPropagation(); deleteButton(ide, data) }}>
+          <DeleteRoundedIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title={"Change color"}>
+        <IconButton aria-label="setColor" onClick={handleClickPopover} >
+          <ColorLensRoundedIcon />
+        </IconButton>
+      </Tooltip>
+      <Popover
+        id='simple-popover'
+        open={openPopover}
+        anchorEl={anchorEl}
+        onClose={handleClosePopover}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <ColorSelector color={colorito} />
+      </Popover>
+    </div>
   }
-  function MouseOut() {
+  function MouseOut(colorito, ide, data) {
     setHoverNote(false);
+    return <div style={{ display: 'none' }}>
+      <Tooltip title={"Delete"}>
+        <IconButton aria-label="delete" onClick={(e) => { e.stopPropagation(); deleteButton(ide, data) }}>
+          <DeleteRoundedIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title={"Change color"}>
+        <IconButton aria-label="setColor" onClick={handleClickPopover} >
+          <ColorLensRoundedIcon />
+        </IconButton>
+      </Tooltip>
+      <Popover
+        id='simple-popover'
+        open={openPopover}
+        anchorEl={anchorEl}
+        onClose={handleClosePopover}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <ColorSelector color={colorito} />
+      </Popover>
+    </div>
   }
 
   //const EmptyNote = (content, title) => {
@@ -158,11 +200,11 @@ function NoteList() {
       <Button style={{ backgroundColor: theme.palette.mode === 'light' ? '#272b33' : '#fff475', color: theme.palette.mode === 'light' ? '#fff475' : '#272b33' }}
         startIcon={<AddIcon />} onClick={() => handleOpen()}>Añadir Nota</Button>
       <Box>
-        <Masonry sx={{ m: 0 }} columns={{ xs: 2, sm: 2, md: 3, lg: 5, xl: 6 }} spacing={2.5}>
-          {dataBase.sort((a, b) => (a.created_at > b.created_at) ? -1 : 1).map((data, key) => {
+        <Masonry sx={{ m: 0 }} columns={{ xs: 2, sm: 2, md: 3, lg: 5, xl: 6 }} spacing={{ xs: 1, sm: 1.5, md: 1.8, lg: 2, xl: 2 }}>
+          {dataBase.sort((a, b) => (Date.parse(a.created_at) > Date.parse(b.created_at)) ? -1 : 1).map((data, key) => {
             return (
               <Grid item key={data.id} className='gridCards'>
-                <MiCard onMouseOver={MouseOver} onMouseOut={MouseOut} container onClick={() => {
+                <MiCard onMouseOver={() => { MouseOver(data.color, data.ide, data) }} onMouseOut={() => { MouseOut(data.color, data.ide, data) }} container onClick={() => {
                   // setOpen(true);
                   handleOpen(data.content, data.title, data.created_at);
                   setModalInfo(data);
@@ -195,7 +237,7 @@ function NoteList() {
                     {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
                     {/*</div>*/}
                     {/*{hoverNote === true ? (*/}
-                    <div className={"footerCardNoteList" + (hoverNote === true ? "showIconsCardHover" : "NotShowIconsCardHover")}>
+                    {/*<div className={"footerCardNoteList" + (hoverNote === true ? "showIconsCardHover" : "NotShowIconsCardHover")}>
                       <Tooltip title={"Delete"}>
                         <IconButton aria-label="delete" onClick={(e) => { e.stopPropagation(); deleteButton(data.id, data) }}>
                           <DeleteRoundedIcon />
@@ -213,10 +255,32 @@ function NoteList() {
                         onClose={handleClosePopover}
                         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                       >
-                        <ColorSelector />
+                        <ColorSelector color={data.color} />
+                      </Popover>
+                    </div>*/}
+                    {/*) : null}*/}
+
+                    <div className={'hiddenCardIcons'} style={{ visibility: 'hidden' }}>
+                      <Tooltip title={"Delete"}>
+                        <IconButton aria-label="delete" onClick={(e) => { e.stopPropagation(); deleteButton(data.id, data) }}>
+                          <DeleteRoundedIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title={"Change color"}>
+                        <IconButton aria-label="setColor" onClick={handleClickPopover} >
+                          <ColorLensRoundedIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Popover
+                        id='simple-popover'
+                        open={openPopover}
+                        anchorEl={anchorEl}
+                        onClose={handleClosePopover}
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                      >
+                        <ColorSelector color={data.color} />
                       </Popover>
                     </div>
-                    {/*) : null}*/}
 
                   </Grid>
                 </MiCard>
@@ -227,9 +291,9 @@ function NoteList() {
               <Note note={note} key={note.id} />
             ))} */}
         </Masonry>
-      </Box>
+      </Box >
       <NoteDetail open={open} oldModalInfoTitle={oldModalInfoTitle} oldModalInfoContent={oldModalInfoContent} oldModalInfoDate={oldModalInfoDate} handleClose={handleClose} modalInfo={modalInfo} setModalInfo={setModalInfo} deleteButton={deleteButton} checkDb={checkDb} dataBase={dataBase} updateDb={updateDb} />
-    </section>
+    </section >
   );
 }
 export default NoteList;

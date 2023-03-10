@@ -72,11 +72,10 @@ body {
   box-shadow: 0 1px 2px 1px rgba(80, 80, 80, 0.651);
   transition: box-shadow 0.2s ease 0s;
 }
-.showIconsCardHover {
-  display: flex;
-}
-.NotShowIconsCardHover {
-  display: none;
+
+.miCard:hover .hiddenCardIcons {
+  visibility: visible !important;
+  /*transition: background-color 0.218s ease-in-out;*/
 }
 
 .Typography {
@@ -120,7 +119,7 @@ body {
 }
 .textContent {
   font-weight: 400 !important;
-  font-size: 0.95rem !important;
+  font-size: 0.91rem !important;
 }
 
 .MuiTooltip-tooltip {
