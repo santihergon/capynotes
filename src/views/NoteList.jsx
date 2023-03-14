@@ -67,8 +67,8 @@ function NoteList() {
   const openPopover = Boolean(anchorEl);
 
   const handleOpen = (content, title, created_at) => {
-    //if ((content !== oldModalInfoContent) || (title !== oldModalInfoTitle)) { //Esta otra forma está bien?????????
-    if ((content && title) !== (oldModalInfoContent && oldModalInfoTitle)) {
+    if ((content !== oldModalInfoContent) || (title !== oldModalInfoTitle)) { //Esta otra forma está bien?????????
+      //if ((content && title) !== (oldModalInfoContent && oldModalInfoTitle)) {
       setOldModalInfoDate(created_at);
     }
     setOldModalInfoContent(content);
@@ -291,9 +291,9 @@ function NoteList() {
               <Note note={note} key={note.id} />
             ))} */}
         </Masonry>
-      </Box >
+      </Box>
       <NoteDetail open={open} oldModalInfoTitle={oldModalInfoTitle} oldModalInfoContent={oldModalInfoContent} oldModalInfoDate={oldModalInfoDate} handleClose={handleClose} modalInfo={modalInfo} setModalInfo={setModalInfo} deleteButton={deleteButton} checkDb={checkDb} dataBase={dataBase} updateDb={updateDb} />
-    </section >
+    </section>
   );
 }
 export default NoteList;

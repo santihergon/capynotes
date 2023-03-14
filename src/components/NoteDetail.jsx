@@ -115,7 +115,9 @@ function NoteDetail({ open, oldModalInfoContent, oldModalInfoTitle, oldModalInfo
                 id: dataBase.length + 1,
                 title: modalInfo.title,
                 content: modalInfo.content,
-                created_at: modalInfo.created_at = date.toLocaleString(),
+                //created_at: modalInfo.created_at = date.toLocaleString(),
+                //created_at: date.toLocaleString(),
+                created_at: date,
                 //modified_at: modalInfo.modified_at = date.toLocaleString(),
                 color: noteColor
             }
@@ -124,7 +126,7 @@ function NoteDetail({ open, oldModalInfoContent, oldModalInfoTitle, oldModalInfo
             }
             updateDb([...dataBase]);
         }
-        if (!(modalInfo.content || modalInfo.title) || modalInfo.color) {
+        if (modalInfo.color) {
             updateDb([...dataBase]);
         }
 
@@ -183,7 +185,7 @@ function NoteDetail({ open, oldModalInfoContent, oldModalInfoTitle, oldModalInfo
                                 <div className='pregunta'>
                                     {/*<small>Create at: {modalInfo?.modified_at}</small>*/}
                                     {modalInfo?.created_at ? (
-                                        <Tooltip title={"Create at: " + oldModalInfoDate}
+                                        <Tooltip title={"Create at: " + oldModalInfoDate.toLocaleString()}
                                             //sx={{ backgroundColor: theme.palette.mode === 'light' ? "red" : 'rgb(70 70 70 / 35%)', color: theme.palette.mode === 'light' ? 'red' : '#272b33' }}>
                                             componentsProps={{
                                                 tooltip: {
@@ -193,7 +195,7 @@ function NoteDetail({ open, oldModalInfoContent, oldModalInfoTitle, oldModalInfo
                                                     },
                                                 },
                                             }}>
-                                            <small style={{ color: theme.palette.mode === 'light' ? 'dark' : 'white' }}>Modified at: {modalInfo?.created_at}</small>
+                                            <small style={{ color: theme.palette.mode === 'light' ? 'dark' : 'white' }}>Modified at: {modalInfo?.created_at.toLocaleString()}</small>
                                         </Tooltip>
                                     ) : null}
                                     {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
