@@ -49,7 +49,7 @@ const MiCard = styled(Grid)(({ theme }) => ({
 
 }));
 
-function NoteDetail({ open, oldModalInfoContent, oldModalInfoTitle, oldModalInfoDate, handleClose, modalInfo, deleteButton, updateDb, dataBase, setModalInfo }) {
+function NoteDetail({ open, oldModalInfoContent, setOldModalInfoContent, oldModalInfoTitle, setOldModalInfoTitle, oldModalInfoDate, setOldModalInfoDate, handleClose, modalInfo, deleteButton, updateDb, dataBase, setModalInfo }) {
 
     const theme = useTheme();
     const colorMode = useContext(ColorModeContext);
@@ -107,7 +107,7 @@ function NoteDetail({ open, oldModalInfoContent, oldModalInfoTitle, oldModalInfo
     }
 
     const closeModal = () => {
-        if ((oldModalInfoContent !== modalInfo.content || oldModalInfoTitle !== modalInfo.title) && (modalInfo.content || modalInfo.title)) {
+        if (((oldModalInfoContent !== modalInfo.content) || (oldModalInfoTitle !== modalInfo.title)) && (modalInfo.content || modalInfo.title)) {
             //if ((oldModalInfoContent !== modalInfo.content || oldModalInfoTitle !== modalInfo.title)) {
 
             const date = new Date();
@@ -121,10 +121,16 @@ function NoteDetail({ open, oldModalInfoContent, oldModalInfoTitle, oldModalInfo
                 //modified_at: modalInfo.modified_at = date.toLocaleString(),
                 color: noteColor
             }
+            setOldModalInfoContent(null);
+            setOldModalInfoContent(null);
             if (!isUpdate) {
                 dataBase.push(newNote);
             }
             updateDb([...dataBase]);
+            //if (oldModalInfoDate === modalInfo.created_at) {
+            //    setOldModalInfoDate = modalInfo.created_at;
+            //}
+
         }
         if (modalInfo.color) {
             updateDb([...dataBase]);
@@ -183,9 +189,8 @@ function NoteDetail({ open, oldModalInfoContent, oldModalInfoTitle, oldModalInfo
                             </div>
                             <div className="footerCard" style={{ backgroundColor: theme.palette.mode === 'light' ? NOTE_COLORS_LIGHT[modalInfo.color] : NOTE_COLORS[modalInfo.color] }} >
                                 <div className='pregunta'>
-                                    {/*<small>Create at: {modalInfo?.modified_at}</small>*/}
                                     {modalInfo?.created_at ? (
-                                        <Tooltip title={"Create at: " + oldModalInfoDate.toLocaleString()}
+                                        <Tooltip title={"Create at: " + oldModalInfoDate.toLocaleString("en-GB").replace(',', '')}
                                             //sx={{ backgroundColor: theme.palette.mode === 'light' ? "red" : 'rgb(70 70 70 / 35%)', color: theme.palette.mode === 'light' ? 'red' : '#272b33' }}>
                                             componentsProps={{
                                                 tooltip: {
@@ -195,11 +200,10 @@ function NoteDetail({ open, oldModalInfoContent, oldModalInfoTitle, oldModalInfo
                                                     },
                                                 },
                                             }}>
-                                            <small style={{ color: theme.palette.mode === 'light' ? 'dark' : 'white' }}>Modified at: {modalInfo?.created_at.toLocaleString()}</small>
+                                            <small style={{ color: theme.palette.mode === 'light' ? 'dark' : 'white' }}>Modified at: {modalInfo?.created_at.toLocaleString("en-GB").replace(',', '')}</small>
                                         </Tooltip>
                                     ) : null}
                                     {/* <span>{format(data.created_at, 'dd/mm/yyyy')}</span> */}
-
                                 </div>
                                 <Tooltip title={"Delete"}>
                                     <IconButton aria-label="delete" onClick={() => deleteButton(modalInfo?.id, modalInfo)}>

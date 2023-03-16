@@ -41,7 +41,7 @@ export function Header() {
                   {theme.palette.mode === 'light' ? <LightModeRoundedIcon /> : <DarkModeRoundedIcon />}
                 </IconButton>
                 <Button variant="contained" style={{
-                  backgroundColor: theme.palette.mode === 'light' ? '#272b33' : '#fff475', color: theme.palette.mode === 'light' ? '#fff475' : '#272b33',
+                  backgroundColor: theme.palette.mode === 'light' ? '#272b33' : '#fff475', color: theme.palette.mode === 'light' ? '#fff475' : '#272b33', fontWeight: 600
                   //"&:hover": { backgroundColor: theme.palette.mode === 'light' ? '#fff475' : '#272b33', color: theme.palette.mode === 'light' ? '#272b33' : '#fff475', }
                 }}
                   startIcon={<AddIcon />}>

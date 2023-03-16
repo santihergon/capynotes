@@ -46,20 +46,9 @@ function App() {
           //  primary: "#d0d0d0",
           //},
         },
-        NOTE_COLORS_LIGHT: {
-          red: '#8d5991',
-          green: '#2e9d50',
-          blue: '#2a7bb5',
-          yellow: '#c9b31b',
-          white: '#919191',
-          black: '#1A2027',
-          purple: '#d7aefb',
-          pink: '#f7c3df',
-          brown: '#e6c9a8',
-        },
         typography: {
-          fontFamily: '"Open Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans- serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-          fontSize: 16
+          fontFamily: 'Figtree',
+          fontSize: 16,
         },
         components: {
           MuiTextField: {
@@ -81,20 +70,6 @@ function App() {
                 //},
               },
             },
-          },
-          MuiBox: {
-            styleOverrides: {
-              root: {
-                //
-              }
-            }
-          },
-          MuiAppBar: {
-            styleOverrides: {
-              root: {
-                //backgroundColor: "#fff475"
-              }
-            }
           },
         },
       }),

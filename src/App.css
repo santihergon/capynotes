@@ -8,7 +8,7 @@ body {
   text-align: center;
 }
 
-.App-logo {
+/*.App-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -17,7 +17,7 @@ body {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
+}*/
 
 .App-header {
   /*background-color: #282c34;*/
@@ -30,23 +30,9 @@ body {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* Header Styles */
 .header {
-  max-width: 1920px !important;
-  /* Si quiero cambiar el header tengo que usar esto */
+  max-width: 100% !important;
   /*background-color: #fff475;*/
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
     0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
@@ -60,7 +46,7 @@ body {
   /*background: var(--dark);*/
   padding-top: 40px;
   /*display: flex;*/
-  justify-content: center;
+  /*justify-content: center;*/
 }
 
 .miCard {
@@ -78,7 +64,7 @@ body {
 }
 
 .hiddenCardIcons {
-  transition-duration: 0.2s ;
+  transition-duration: 0.2s;
   transition-timing-function: ease-in;
 }
 
@@ -88,7 +74,7 @@ body {
 }
 
 .textFieldTitle {
-  padding-bottom: 1%;
+  padding-bottom: 5px;
 }
 
 .textFieldTitle .MuiInput-input {
@@ -116,7 +102,7 @@ body {
 }
 
 .divTitle {
-  padding-bottom: 1.5%;
+  padding-bottom: 4px;
 }
 .textTitle {
   font-size: 1.3rem !important;
@@ -162,7 +148,7 @@ body {
   background-color: rgba(0, 0, 0, 0);
 }
 
-:root {
+/*:root {
   --background: rgba(0, 0, 0, 0.2) !important;
   --text-primary: black;
   --text-secondary: royalblue;
@@ -170,9 +156,8 @@ body {
 }
 
 [data-theme="dark"] {
-  /*--background: rgba(255, 255, 255, 0.325);*/
-  --background: red !important;
+  --background: rgba(255, 255, 255, 0.325);
   --text-primary: white;
   --text-secondary: grey;
   --accent: darkred;
-}
+}*/
